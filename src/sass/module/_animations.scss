@@ -1,0 +1,13 @@
+@include keyframe(jump){
+	0%{
+		@include transform(translate(0, 0em));
+	}
+
+	50%{
+		@include transform(translate(0, 1em));
+	}
+
+	100%{
+		@include transform(translate(0, 0em));
+	}
+}
