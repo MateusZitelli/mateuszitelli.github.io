@@ -8,7 +8,8 @@ var gulp = require('gulp'),
     concat = require('gulp-concat-sourcemap'),
     browserify = require('gulp-browserify'),
     livereload = require('gulp-livereload'),
-    jshint = require('gulp-jshint');
+    jshint = require('gulp-jshint'),
+    svgmin = require('gulp-svgmin');
 
 gulp.task('html', function(){
   return gulp.src('index.html')
@@ -18,7 +19,7 @@ gulp.task('html', function(){
 gulp.task('sass', function(){
   return gulp.src('src/sass/*.scss')
     .pipe(sass())
-    .pipe(gulp.dest('assets/css'))
+    .pipe(gulp.dest('build/css'))
     .pipe(livereload());
 });
 
@@ -30,13 +31,20 @@ gulp.task('scripts', function() {
       transform : ['browserify-hogan']
     }))
     .pipe(jshint())
-    .pipe(gulp.dest('assets/js/'))
+    .pipe(gulp.dest('build/js/'))
     .pipe(livereload());
 });
 
-gulp.task('default', ['sass', 'scripts', 'html'], function() {
+gulp.task('svg', function(){
+  return gulp.src('assets/images/*.svg')
+    .pipe(svgmin())
+    .pipe(gulp.dest('build/images/'));
+});
+
+gulp.task('default', ['sass', 'scripts', 'svg', 'html'], function() {
   // Start to watch the files
   gulp.watch('src/sass/**/*.scss', ['sass']);
   gulp.watch(['src/js/**.js', 'src/templates/**.html'], ['scripts']);
   gulp.watch('index.html', ['html']);
+  gulp.watch('assets/images/*.svg', ['svg']);
 });
