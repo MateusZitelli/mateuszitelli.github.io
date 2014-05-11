@@ -11,7 +11,9 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     svgmin = require('gulp-svgmin'),
     inject = require('gulp-inject'),
-    path = require('path');
+    path = require('path'),
+    gutil = require('gulp-util')
+    filesize = require('gulp-filesize');
 
 function extname (file) {
   return path.extname(file).slice(1);
@@ -29,16 +31,15 @@ function transform(filepath) {
   }
 }
 
-gulp.task('html', function(){
-  return gulp.src('index.html')
-    .pipe(livereload());
-});
-
 gulp.task('sass', function(){
   return gulp.src('src/sass/*.scss')
     .pipe(sass())
     .pipe(gulp.dest('build/css'))
-    .pipe(livereload());
+    .pipe(minifyCSS())
+    .pipe(rename('main.min.css'))
+    .pipe(gulp.dest('build/css'))
+    .pipe(livereload())
+    .on('error', gutil.log);
 });
 
 gulp.task('scripts', function() {
@@ -50,13 +51,18 @@ gulp.task('scripts', function() {
     }))
     .pipe(jshint())
     .pipe(gulp.dest('build/js/'))
-    .pipe(livereload());
+    .pipe(uglify())
+    .pipe(rename('main.min.js'))
+    .pipe(gulp.dest('build/js/'))
+    .pipe(livereload())
+    .on('error', gutil.log);
 });
 
 gulp.task('svg', function(){
   return gulp.src('assets/images/*.svg')
     .pipe(svgmin())
-    .pipe(gulp.dest('build/images/'));
+    .pipe(gulp.dest('build/images/'))
+    .on('error', gutil.log);
 });
 
 gulp.task('html-debug', function(){
@@ -67,7 +73,32 @@ gulp.task('html-debug', function(){
         transform: transform
       }))
     .pipe(gulp.dest("./build"))
-    .pipe(livereload());
+    .pipe(livereload())
+    .on('error', gutil.log);
+});
+
+gulp.task('html-debug', function(){
+  gulp.src('./src/index.html')
+    .pipe(inject(gulp.src(['build/js/main.js', 'build/css/main.css'],
+      {read: false}), {
+        addRootSlash: false,
+        transform: transform
+      }))
+    .pipe(gulp.dest("./build"))
+    .pipe(livereload())
+    .on('error', gutil.log);
+});
+
+gulp.task('html-production', function(){
+  gulp.src('./src/index.html')
+    .pipe(inject(gulp.src(['build/js/main.min.js', 'build/css/main.min.css'],
+      {read: false}), {
+        addRootSlash: false,
+        transform: transform
+      }))
+    .pipe(gulp.dest("./build"))
+    .pipe(livereload())
+    .on('error', gutil.log);
 });
 
 gulp.task('default', ['sass', 'scripts', 'svg', 'html-debug'], function() {
@@ -77,3 +108,5 @@ gulp.task('default', ['sass', 'scripts', 'svg', 'html-debug'], function() {
   gulp.watch('src/index.html', ['html-debug']);
   gulp.watch('assets/images/*.svg', ['svg']);
 });
+
+gulp.task('production', ['sass', 'scripts', 'svg', 'html-production']);

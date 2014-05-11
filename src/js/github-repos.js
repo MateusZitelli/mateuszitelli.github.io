@@ -4,7 +4,7 @@ var repos = (function($){
 
 	var createRepoElement = function($ul, repo){
 		var $li = $('<li></li>');
-		var $a = $('<a class="col-md-4 repo-link fadeIn" target="_blank"></a>');
+		var $a = $('<a class="col-md-4 repo-link" target="_blank"></a>');
 		var $div = $('<div class="repo-content"></div>');
 		var $title = $('<h3></h3>');
 		var $description = $('<p></p>');
@@ -55,7 +55,7 @@ var repos = (function($){
 	 * param {string} user Github username or org
 	 * param {integer} page The page number to be retrieved
 	 */
-	
+
 	loadRepos = function(user, page){
 		var how_many = 100;
 		user = user || "MateusZitelli";
