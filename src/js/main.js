@@ -118,6 +118,7 @@
     var loadContent = function(wellcome){
         var hash = document.location.hash.slice(1);
         var targetTemplate = templates.index;
+        console.log(hash);
         if(hash !== ''){
             targetTemplate = templates[hash];
         }
@@ -150,7 +151,7 @@
             var scrollToElement = $this.attr('href');
             $this.on('click', function(e){
                 e.preventDefault();
-                if(templates[target.slice(1)]){
+                if(templates[scrollToElement.slice(1)]){
                     document.location.hash = scrollToElement;
                 }
                 scrollTo(scrollToElement);
@@ -163,7 +164,7 @@
             manageScrollFadeIns(scrollBottom);
         });
 
-        $(window).on('hashchange',function(){ 
+        $(window).on('hashchange',function(){
             loadContent();
         });
     };
