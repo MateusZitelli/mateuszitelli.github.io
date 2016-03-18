@@ -8,12 +8,8 @@ var repos = (function($){
 		var $div = $('<div class="repo-content"></div>');
 		var $title = $('<h3></h3>');
 		var $description = $('<p></p>');
-		if(repo.fork){
-			$title.text(repo.name + " - forked");
-		}else{
-			$title.text(repo.name);
-		}
-		$description.text(repo.description)
+    $title.text(repo.name);
+    $description.text(repo.description);
 		$title.appendTo($div);
 		$description.appendTo($div);
 		$div.addClass(repo.language);
@@ -21,7 +17,7 @@ var repos = (function($){
 		$a.attr('href', repo.html_url);
 		$a.appendTo($li);
 		$li.appendTo($ul);
-	}
+	};
 
 	/*
 	 * Add the repository list in an element
@@ -32,17 +28,17 @@ var repos = (function($){
 		loadRepos(all).then(function(){
 			var $element = $(element);
 			if(repos === undefined){
-				$element.html("<p>Desculpe mas meus repositórios não puderam ser inicializados.");
+				$element.html("<p>Error loading my repositories.</p>");
 				throw Error("Please load the repository list.");
-				return;
 			}else if(repos === null){
-				$element.html("<p>Desculpe mas meus repositórios não puderam ser inicializados.");
+				$element.html("<p>Error loading my repositories.");
 				throw Error("No repositories returned.");
-				return;
 			}
 
 			var $ul = $('<ul class="repo-list list-unstyled"></ul>');
-			$.each(repos, function(index, repo){
+			repos.filter(function(repo){
+        return !repo.fork;
+      }).map(function(repo){
 				createRepoElement($ul, repo);
 			});
 			$ul.appendTo($element);
@@ -56,7 +52,7 @@ var repos = (function($){
 	 * param {integer} page The page number to be retrieved
 	 */
 
-	loadRepos = function(user, page){
+	var loadRepos = function(user, page){
 		var how_many = 100;
 		user = user || "MateusZitelli";
 		page = page || 1;
@@ -72,7 +68,7 @@ var repos = (function($){
 			var loadedRepos = data.data;
 			if(data.meta.status !== 200){
 				repos = null;
-				return
+				return;
 			}
 			if(loadedRepos.length !== 0){
 				repos = repos.concat(loadedRepos);

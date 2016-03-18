@@ -1,5 +1,4 @@
 #loading{
-	background-color: $color4;
 }
 
 #logo{
@@ -9,4 +8,10 @@
 #logo-svg{
 	margin:10px 10px;
 	height:200px;
+}
+
+#background{
+    position: absolute;
+    top: 0;
+    left: 0;
 }

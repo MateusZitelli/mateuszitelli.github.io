@@ -7,7 +7,7 @@
 	width:100%;
     min-height: 100%;
     height:auto;
-	text-shadow: 1px 1px 1px rgba(255,255,255, 0.05);
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 	overflow:auto;
 
 	.down-arrow{
@@ -24,7 +24,7 @@
 }
 
 #intro{
-	background-color: $color3;
+	background-color: $color0;
 	color: $base03;
 
 	hr{
@@ -78,4 +78,7 @@
 #repos-content{
 	background-color: $color2;
 	padding-bottom: 1em;
+  h1 {
+      color: $color0;
+  }
 }

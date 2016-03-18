@@ -1,5 +1,4 @@
-
-var MZ = (function(){
+var MZ = function(services){
   "use strict";
   //Private vars
   var module = {};
@@ -14,7 +13,7 @@ var MZ = (function(){
     invisible:{
       strokeWidth: 1,
       fill: "none",
-      stroke: "#000", 
+      stroke: "#000",
       "stroke-opacity": 0.0
     }
   };
@@ -22,7 +21,7 @@ var MZ = (function(){
   var matrixes ={
     M: new Snap.Matrix(),
     Z: new Snap.Matrix()
-  }; 
+  };
 
   var snap;
   var stepDuration;
@@ -74,7 +73,7 @@ var MZ = (function(){
       mirroredTriangle: new Path(coords.mirroredTriangle, true),
       externBox: new Path(coords.externBox, true),
       M: new Path(coords.M, false),
-      Z: new Path(coords.Z, false),
+      Z: new Path(coords.Z, false)
     };
 
     paths.triangleCopy = paths.triangle.copy();
@@ -152,7 +151,8 @@ var MZ = (function(){
   };
 
   return module;
-}());;/*
+};
+/*
  * Define um elemento de coordenada bidimensional.
  * @param {int} x Abscissas
  * @param {int} y Ordenadas
