@@ -1,7 +1,7 @@
 title: Mateus Zitelli # The title of the blog
 author: Mateus Zitelli # Your name 
-email: hi@zitel.li # your email shown in the footer
-url: https://zitel.li/ # this is your site's root address.
+email: mateus@zitel.li # your email shown in the footer
+url: https://mateuszitelli.github.io/ # this is your site's root address.
 description: > # this means to ignore newlines until "show_excerpts:"
   Learning by doing and sharing.
 favicon: "./favicon.ico" # set the favicon of the site 
